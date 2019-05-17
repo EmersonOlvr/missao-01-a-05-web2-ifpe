@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${nomePagina}"></title>
+	<link href="/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div class="bold uppercase" th:text="${nomePagina}"></div>
+	<form th:action="@{${action}}" th:object="${evento}" method="post">
+		<table>
+			<tbody>
+				<tr th:if="${mostrarCodigo}">
+					<td><input type="hidden" th:field="*{codigo}" required></td>
+				</tr>
+				<tr>
+					<td>Nome: </td>
+					<td><input type="text" th:field="*{nome}" required></td>
+				</tr>
+				<tr>
+					<td>Descrição: </td>
+					<td><input type="text" th:field="*{descricao}" required></td>
+				</tr>
+				<tr>
+					<td>Data de Realização: </td>
+					<td><input type="date" th:field="*{dataRealizacao}" style="width: 168px" required></td>
+				</tr>
+				<tr>
+					<td>Máximo de Convidados:</td>
+					<td><input type="number" th:field="*{maximoConvidados}" required></td>
+				</tr>
+				<tr>
+					<td>Nome do Responsável: </td>
+					<td><input type="text" th:field="*{nomeResponsavel}" required></td>
+				</tr>
+				<tr>
+					<td>Telefone do Responsavel: </td>
+					<td><input type="text" th:field="*{telefoneResponsavel}" required></td>
+				</tr>
+				<tr>
+					<td>Duração em Horas: </td>
+					<td><input type="number" th:field="*{duracaoHoras}" required></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="submit" th:value="${valueSubmit}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	<br><br>
+	<a href="/evento/">← Voltar</a>
+</body>
+</html>

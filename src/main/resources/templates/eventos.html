@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Cadastro de Eventos</title>
+	<link href="/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div class="bold">EVENTOS CADASTRADOS</div>
+	<div th:if="${eventos.isEmpty()}" style="font-style: italic">Nenhum evento cadastrado.</div>
+	<div th:unless="${eventos.isEmpty()}">
+		<table border="1" style="margin-bottom: 10px">
+			<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Data de Realização</th>
+					<th>Nome do Responsável</th>
+					<th>Telefone do Responsável</th>
+					<th colspan="2">Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="evento : ${eventos}">
+					<td th:text="${evento.nome}"></td>
+					<td th:text="${evento.dataRealizacao}"></td>
+					<td th:text="${evento.nomeResponsavel}"></td>
+					<td th:text="${evento.telefoneResponsavel}"></td>
+					<td>
+						<form th:action="@{/evento/editar}">
+							<input type="hidden" name="codigo" th:value="${evento.codigo}">
+							<input type="submit" value="Editar">
+						</form>
+					</td>
+					<td>
+						<form th:action="@{/evento/excluir}" method="post">
+							<input type="hidden" name="codigo" th:value="${evento.codigo}">
+							<input type="submit" value="Excluir">
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<br>
+	<div class="bold">CADASTRAR EVENTO</div>
+	<button onclick="location.href='cadastrar'">Novo Evento</button>
+	<br><br>
+	<a href="/">← Voltar</a>
+</body>
+</html>
