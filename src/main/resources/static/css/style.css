@@ -1,0 +1,20 @@
+html {
+	font-family: sans-serif;
+	color: #fff;
+	margin: 10px;
+	background-color: #10171e;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+a {
+	color: #fff;
+	text-decoration: none;
+	font-style: italic;
+}
+a:hover, a:active {
+	color: #1DA1F2;
+	text-decoration: underline;
+}
