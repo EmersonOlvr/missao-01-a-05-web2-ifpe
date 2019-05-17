@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Cadastro de Locais</title>
+	<link href="/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div class="bold">LOCAIS CADASTRADOS</div>
+	<div th:if="${locais.isEmpty()}" style="font-style: italic">Nenhum local cadastrado.</div>
+	<div th:unless="${locais.isEmpty()}">
+		<table border="1" style="margin-bottom: 10px">
+			<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Link do Google Maps</th>
+					<th>Capacidade</th>
+					<th colspan="2">Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="local : ${locais}">
+					<td th:text="${local.nome}"></td>
+					<td><a th:href="|https://www.google.com.br/maps/${local.linkGoogleMaps}|" target="_blank">Abrir no Google Maps</a></td>
+					<td th:text="${local.capacidade}"></td>
+					<td>
+						<form th:action="@{/local/editar}">
+							<input type="hidden" name="codigo" th:value="${local.codigo}">
+							<input type="submit" value="Editar">
+						</form>
+					</td>
+					<td>
+						<form th:action="@{/local/excluir}" method="post">
+							<input type="hidden" name="codigo" th:value="${local.codigo}">
+							<input type="submit" value="Excluir">
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<br>
+	<div class="bold">CADASTRAR LOCAL</div>
+	<button onclick="location.href='cadastrar'">Novo Local</button>
+	<br><br>
+	<a href="/">← Voltar</a>
+</body>
+</html>

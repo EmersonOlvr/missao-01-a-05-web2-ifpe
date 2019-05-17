@@ -1,4 +1,4 @@
-package br.ifpe.web2.missao02;
+package br.ifpe.web2.missoes.model;
 
 import java.sql.Date;
 
@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,6 +18,8 @@ public class Evento {
 	private Integer codigo;
 	private String nome;
 	private String descricao;
+	@ManyToOne
+	private LocalEvento localEvento;
 	private Date dataRealizacao;
 	private Integer maximoConvidados;
 	private String nomeResponsavel;
@@ -40,6 +43,12 @@ public class Evento {
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	public LocalEvento getLocalEvento() {
+		return localEvento;
+	}
+	public void setLocalEvento(LocalEvento localEvento) {
+		this.localEvento = localEvento;
 	}
 	public Date getDataRealizacao() {
 		return dataRealizacao;

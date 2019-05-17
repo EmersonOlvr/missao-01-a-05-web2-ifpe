@@ -1,4 +1,4 @@
-package br.ifpe.web2.missao02;
+package br.ifpe.web2.missoes.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,4 +23,5 @@ public class MainController {
 	public String viewValidarSenha() {
 		return "validar-senha";
 	}
+	
 }

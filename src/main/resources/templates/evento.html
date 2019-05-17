@@ -7,39 +7,48 @@
 </head>
 <body>
 	<div class="bold uppercase" th:text="${nomePagina}"></div>
-	<form th:action="@{${action}}" th:object="${evento}" method="post">
+	<form th:object="${evento}" method="post">
 		<table>
 			<tbody>
 				<tr th:if="${mostrarCodigo}">
-					<td><input type="hidden" th:field="*{codigo}" required></td>
+					<td><input type="hidden" th:field="*{codigo}" size="30" required></td>
 				</tr>
 				<tr>
 					<td>Nome: </td>
-					<td><input type="text" th:field="*{nome}" required></td>
+					<td><input type="text" th:field="*{nome}" size="30" required></td>
 				</tr>
 				<tr>
 					<td>Descrição: </td>
-					<td><input type="text" th:field="*{descricao}" required></td>
+					<td><input type="text" th:field="*{descricao}" size="30" required></td>
+				</tr>
+				<tr>
+					<td>Local do Evento</td>
+					<td>
+						<select th:field="*{localEvento}">
+							<option value="">Selecione...</option>
+							<option th:each="local : ${locais}" th:text="${local.nome}" th:value="${local.codigo}"></option>
+						</select>
+					</td>
 				</tr>
 				<tr>
 					<td>Data de Realização: </td>
-					<td><input type="date" th:field="*{dataRealizacao}" style="width: 168px" required></td>
+					<td><input type="date" th:field="*{dataRealizacao}" style="width: 239px" required></td>
 				</tr>
 				<tr>
 					<td>Máximo de Convidados:</td>
-					<td><input type="number" th:field="*{maximoConvidados}" required></td>
+					<td><input type="number" th:field="*{maximoConvidados}" style="width: 239px" required></td>
 				</tr>
 				<tr>
 					<td>Nome do Responsável: </td>
-					<td><input type="text" th:field="*{nomeResponsavel}" required></td>
+					<td><input type="text" th:field="*{nomeResponsavel}" size="30" required></td>
 				</tr>
 				<tr>
 					<td>Telefone do Responsavel: </td>
-					<td><input type="text" th:field="*{telefoneResponsavel}" required></td>
+					<td><input type="text" th:field="*{telefoneResponsavel}" size="30" required></td>
 				</tr>
 				<tr>
 					<td>Duração em Horas: </td>
-					<td><input type="number" th:field="*{duracaoHoras}" required></td>
+					<td><input type="number" th:field="*{duracaoHoras}" style="width: 239px" required></td>
 				</tr>
 				<tr>
 					<td></td>
