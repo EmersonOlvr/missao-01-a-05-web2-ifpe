@@ -2,29 +2,42 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+	
 	<title th:text="${nomePagina}"></title>
-	<link href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div class="bold uppercase" th:text="${nomePagina}"></div>
 	<form th:object="${evento}" method="post">
-		<table>
+		<table class="mb-2">
 			<tbody>
 				<tr th:if="${mostrarCodigo}">
-					<td><input type="hidden" th:field="*{codigo}" size="30" required></td>
+					<td><input type="hidden" th:field="*{codigo}" size="30"></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+							<th:block th:each="err : ${#fields.allErrors()}">
+								[[${err}]]<br>
+							</th:block>
+						</div>
+					</td>
 				</tr>
 				<tr>
 					<td>Nome: </td>
-					<td><input type="text" th:field="*{nome}" size="30" required></td>
+					<td><input type="text" class="form-control" th:field="*{nome}" size="30"></td>
 				</tr>
 				<tr>
 					<td>Descrição: </td>
-					<td><input type="text" th:field="*{descricao}" size="30" required></td>
+					<td><input type="text" class="form-control" th:field="*{descricao}" size="30"></td>
 				</tr>
 				<tr>
 					<td>Local do Evento</td>
 					<td>
-						<select th:field="*{localEvento}">
+						<select class="form-control" th:field="*{localEvento}">
 							<option value="">Selecione...</option>
 							<option th:each="local : ${locais}" th:text="${local.nome}" th:value="${local.codigo}"></option>
 						</select>
@@ -32,32 +45,36 @@
 				</tr>
 				<tr>
 					<td>Data de Realização: </td>
-					<td><input type="date" th:field="*{dataRealizacao}" style="width: 239px" required></td>
+					<td><input type="date" class="form-control" th:field="*{dataRealizacao}"></td>
 				</tr>
 				<tr>
 					<td>Máximo de Convidados:</td>
-					<td><input type="number" th:field="*{maximoConvidados}" style="width: 239px" required></td>
+					<td><input type="number" class="form-control" th:field="*{maximoConvidados}"></td>
 				</tr>
 				<tr>
 					<td>Nome do Responsável: </td>
-					<td><input type="text" th:field="*{nomeResponsavel}" size="30" required></td>
+					<td><input type="text" class="form-control" th:field="*{nomeResponsavel}" size="30"></td>
 				</tr>
 				<tr>
 					<td>Telefone do Responsavel: </td>
-					<td><input type="text" th:field="*{telefoneResponsavel}" size="30" required></td>
+					<td><input type="text" class="form-control" th:field="*{telefoneResponsavel}" size="30"></td>
 				</tr>
 				<tr>
 					<td>Duração em Horas: </td>
-					<td><input type="number" th:field="*{duracaoHoras}" style="width: 239px" required></td>
+					<td><input type="number" class="form-control" th:field="*{duracaoHoras}" step="0.10"></td>
 				</tr>
 				<tr>
 					<td></td>
-					<td><input type="submit" th:value="${valueSubmit}"></td>
+					<td class="pt-3"><input type="submit" class="btn btn-success" th:value="${valueSubmit}"></td>
 				</tr>
 			</tbody>
 		</table>
 	</form>
-	<br><br>
+	
 	<a href="/evento/">← Voltar</a>
+	
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

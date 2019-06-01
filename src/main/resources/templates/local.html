@@ -2,36 +2,49 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+	
 	<title th:text="${nomePagina}"></title>
-	<link href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div class="bold uppercase" th:text="${nomePagina}"></div>
 	<form th:object="${local}" method="post">
-		<table>
+		<table class="mb-2">
 			<tbody>
 				<tr th:if="${mostrarCodigo}">
 					<td><input type="hidden" th:field="*{codigo}" size="30" required></td>
 				</tr>
 				<tr>
+					<td colspan="2">
+						<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+							<th:block th:each="err : ${#fields.allErrors()}">
+								[[${err}]]<br>
+							</th:block>
+						</div>
+					</td>
+				</tr>
+				<tr>
 					<td>Nome: </td>
-					<td><input type="text" th:field="*{nome}" size="30" placeholder="Ex: Clube dos Ferroviários" required></td>
+					<td><input type="text" class="form-control" th:field="*{nome}" size="30" placeholder="Ex: Clube dos Ferroviários" required></td>
 				</tr>
 				<tr>
 					<td>Endereço: </td>
-					<td><input type="text" th:field="*{endereco}" size="30" placeholder="Ex: Centro, Jaboatão dos Guararapes" required></td>
+					<td><input type="text" class="form-control" th:field="*{endereco}" size="30" placeholder="Ex: Centro, Jaboatão dos Guararapes" required></td>
 				</tr>
 				<tr>
 					<td>Link (google.com.br/maps/): </td>
-					<td><input type="text" th:field="*{linkGoogleMaps}" placeholder="Ex: place/Dos+Ferroviarios/@-8.112..." size="30" required></td>
+					<td><input type="text" class="form-control" th:field="*{linkGoogleMaps}" placeholder="Ex: place/Dos+Ferroviarios/@-8.112..." size="30" required></td>
 				</tr>
 				<tr>
 					<td>Capacidade: </td>
-					<td><input type="number" th:field="*{capacidade}" style="width: 239px;" placeholder="Ex: 125" required></td>
+					<td><input type="number" class="form-control" th:field="*{capacidade}" placeholder="Ex: 125" required></td>
 				</tr>
 				<tr>
 					<td>Está aberto?</td>
-					<td>
+					<td class="pt-2">
 						<input type="radio" th:field="*{estaAberto}" value="true"> <label for="estaAberto1" checked="checked">Sim</label>
 						<span style="margin-right: 30px"></span>
 						<input type="radio" th:field="*{estaAberto}" value="false"> <label for="estaAberto2">Não</label>
@@ -39,12 +52,16 @@
 				</tr>
 				<tr>
 					<td></td>
-					<td><input type="submit" th:value="${valueSubmit}"></td>
+					<td class="pt-3"><input type="submit" class="btn btn-success" th:value="${valueSubmit}"></td>
 				</tr>
 			</tbody>
 		</table>
 	</form>
-	<br><br>
+	
 	<a href="/local/">← Voltar</a>
+	
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

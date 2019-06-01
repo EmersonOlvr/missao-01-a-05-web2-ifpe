@@ -1,8 +1,12 @@
 html {
-	font-family: sans-serif;
+	/*font-family: sans-serif;
 	color: #fff;
+	background-color: #10171e;*/
 	margin: 10px;
-	background-color: #10171e;
+}
+body {
+	/*color: #fff;
+	background-color: #10171e;*/
 }
 
 .bold {
@@ -13,11 +17,12 @@ html {
 }
 
 a {
-	color: #fff;
-	text-decoration: none;
+	/*color: #fff;
+	text-decoration: none;*/
 	font-style: italic;
+	font-size: 13pt;
 }
 a:hover, a:active {
-	color: #1DA1F2;
+	/*color: #1DA1F2;*/
 	text-decoration: underline;
 }

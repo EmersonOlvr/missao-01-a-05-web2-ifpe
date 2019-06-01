@@ -1,8 +1,12 @@
 package br.ifpe.web2.missoes.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,9 +28,21 @@ public class EventoController {
 	private LocalEventoDAO localRep;
 	
 	@GetMapping("/")
-	public ModelAndView viewEventos() {
+	public ModelAndView viewEventos(Model model, @RequestParam(required = false) String nome) {
 		ModelAndView mv = new ModelAndView("eventos-lista");
 		mv.addObject("eventos", this.eventosRep.findAll());
+		model.addAttribute("txtBusca", "cadastrado");
+		
+		if (nome != null) {
+			if (nome.trim().isEmpty()) {
+				System.err.println("Insira um nome.");
+				model.addAttribute("erro", "Insira um nome.");
+				return mv;
+			}
+			mv.addObject("eventos", this.eventosRep.findByNome(nome));
+			model.addAttribute("strBusca", nome);
+			model.addAttribute("txtBusca", "encontrado");
+		}
 		return mv;
 	}
 	
@@ -43,9 +59,17 @@ public class EventoController {
 		return mv;
 	}
 	@PostMapping("/cadastrar")
-	public String cadastrarEvento(@ModelAttribute Evento evento) {
-		this.eventosRep.save(evento);
-		return "redirect:/evento/";
+	public ModelAndView cadastrarEvento(Model model, @Valid @ModelAttribute Evento evento, BindingResult br) {
+		if (br.hasErrors()) {
+			for (FieldError err : br.getFieldErrors()) {
+				System.err.println(err.getDefaultMessage());
+			}
+			return this.viewCadastrarEvento(model).addObject("evento", evento).addObject("locais", this.localRep.findAll());
+		} else {
+			this.eventosRep.save(evento);
+		}
+		
+		return new ModelAndView("redirect:/evento/");
 	}
 	
 	// edição de um evento
@@ -61,9 +85,12 @@ public class EventoController {
 		return mv;
 	}
 	@PostMapping("/editar")
-	public String editarEvento(@ModelAttribute Evento evento) {
+	public ModelAndView editarEvento(Model model, @Valid @ModelAttribute Evento evento, BindingResult br) {
+		if (br.hasErrors()) {
+			return this.viewEditarEvento(evento.getCodigo(), model).addObject("evento", evento).addObject("locais", this.localRep.findAll());
+		}
 		this.eventosRep.save(evento);
-		return "redirect:/evento/editar?codigo="+evento.getCodigo();
+		return this.viewEditarEvento(evento.getCodigo(), model);
 	}
 	
 	// exclusão de um evento

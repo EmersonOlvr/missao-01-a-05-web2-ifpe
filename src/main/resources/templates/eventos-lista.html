@@ -2,14 +2,17 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/style.css">
+		
 	<title>Cadastro de Eventos</title>
-	<link href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div class="bold">EVENTOS CADASTRADOS</div>
-	<div th:if="${eventos.isEmpty()}" style="font-style: italic">Nenhum evento cadastrado.</div>
-	<div th:unless="${eventos.isEmpty()}">
-		<table border="1" style="margin-bottom: 10px">
+	<div class="mb-2">
+		<table border="1" class="table table-bordered table-hover">
 			<thead>
 				<tr>
 					<th>Nome</th>
@@ -20,31 +23,52 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="evento : ${eventos}">
+				<tr th:if="${eventos.isEmpty()}" style="font-style: italic">
+					<td colspan="5">Nenhum evento [[${txtBusca}]].</td>
+				</tr>
+				<tr th:unless="${eventos.isEmpty()}" th:each="evento : ${eventos}">
 					<td th:text="${evento.nome}"></td>
-					<td th:text="${evento.dataRealizacao}"></td>
+					<td th:text="${#dates.format(evento.dataRealizacao, 'dd/MM/yyyy')}"></td>
 					<td th:text="${evento.nomeResponsavel}"></td>
 					<td th:text="${evento.telefoneResponsavel}"></td>
 					<td>
 						<form th:action="@{/evento/editar}">
 							<input type="hidden" name="codigo" th:value="${evento.codigo}">
-							<input type="submit" value="Editar">
+							<input type="submit" class="btn btn-primary" value="Editar">
 						</form>
 					</td>
 					<td>
 						<form th:action="@{/evento/excluir}" method="post">
 							<input type="hidden" name="codigo" th:value="${evento.codigo}">
-							<input type="submit" value="Excluir">
+							<input type="submit" class="btn btn-danger" value="Excluir">
 						</form>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	<br>
+
+	<div class="bold">BUSCAR EVENTO(S)</div>
+	<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${!#strings.isEmpty(erro)}" style="width: 380px">
+		[[${erro}]]
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<form class="mb-3">
+		<div style="display: inline-flex;">
+			<input type="text" class="form-control mr-2" name="nome" placeholder="Nome do evento..." style="width: 300px" th:value="${strBusca}">
+			<input type="submit" class="btn btn-secondary" value="Buscar">
+		</div>
+	</form>
+	
 	<div class="bold">CADASTRAR EVENTO</div>
-	<button onclick="location.href='cadastrar'">Novo Evento</button>
-	<br><br>
+	<button class="btn btn-success mb-4" onclick="location.href='cadastrar'">Novo Evento</button>
+	<br>
 	<a href="/">← Voltar</a>
+	
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

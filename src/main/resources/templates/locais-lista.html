@@ -2,14 +2,17 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+	
 	<title>Cadastro de Locais</title>
-	<link href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div class="bold">LOCAIS CADASTRADOS</div>
-	<div th:if="${locais.isEmpty()}" style="font-style: italic">Nenhum local cadastrado.</div>
-	<div th:unless="${locais.isEmpty()}">
-		<table border="1" style="margin-bottom: 10px">
+	<div class="mb-2">
+		<table border="1" class="table table-bordered table-hover">
 			<thead>
 				<tr>
 					<th>Nome</th>
@@ -19,30 +22,40 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="local : ${locais}">
+				<tr th:if="${locais.isEmpty()}" style="font-style: italic">
+					<td colspan="4">Nenhum local cadastrado.</td>
+				</tr>
+				<tr th:unless="${locais.isEmpty()}" th:each="local : ${locais}">
 					<td th:text="${local.nome}"></td>
-					<td><a th:href="|https://www.google.com.br/maps/${local.linkGoogleMaps}|" target="_blank">Abrir no Google Maps</a></td>
+					<td>
+						<a th:if="${!#strings.isEmpty(local.linkGoogleMaps)}" th:href="|https://www.google.com.br/maps/${local.linkGoogleMaps}|" target="_blank">Abrir no Google Maps</a>
+						<span th:unless="${!#strings.isEmpty(local.linkGoogleMaps)}" th:href="|https://www.google.com.br/maps/${local.linkGoogleMaps}|" style="font-style: italic" target="_blank">Não há.</span>
+					</td>
 					<td th:text="${local.capacidade}"></td>
 					<td>
 						<form th:action="@{/local/editar}">
 							<input type="hidden" name="codigo" th:value="${local.codigo}">
-							<input type="submit" value="Editar">
+							<input type="submit" class="btn btn-primary" value="Editar">
 						</form>
 					</td>
 					<td>
 						<form th:action="@{/local/excluir}" method="post">
 							<input type="hidden" name="codigo" th:value="${local.codigo}">
-							<input type="submit" value="Excluir">
+							<input type="submit" class="btn btn-danger" value="Excluir">
 						</form>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	<br>
+	
 	<div class="bold">CADASTRAR LOCAL</div>
-	<button onclick="location.href='cadastrar'">Novo Local</button>
-	<br><br>
+	<button onclick="location.href='cadastrar'" class="btn btn-success mb-4">Novo Local</button>
+	<br>
 	<a href="/">← Voltar</a>
+	
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>
