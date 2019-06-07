@@ -1,5 +1,7 @@
 package br.ifpe.web2.missoes.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,8 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.ifpe.web2.missoes.dao.EventoDAO;
 import br.ifpe.web2.missoes.dao.LocalEventoDAO;
+import br.ifpe.web2.missoes.model.Evento;
 import br.ifpe.web2.missoes.model.LocalEvento;
 
 @Controller
@@ -19,6 +24,8 @@ public class LocalEventoController {
 
 	@Autowired
 	private LocalEventoDAO localRep;
+	@Autowired
+	private EventoDAO eventoRep;
 	
 	@GetMapping("/")
 	public ModelAndView viewLocais() {
@@ -63,7 +70,19 @@ public class LocalEventoController {
 	
 	// exclusão de um local
 	@PostMapping("/excluir")
-	public String excluirLocalEvento(@RequestParam Integer codigo) {
+	public String excluirLocalEvento(@RequestParam Integer codigo, RedirectAttributes ra) {
+		try {
+			LocalEvento localEvento = this.localRep.getOne(codigo);
+			List<Evento> listaEventosByLocalEvento = this.eventoRep.findByLocalEvento(localEvento);
+			if (listaEventosByLocalEvento.size() > 0) {
+				ra.addFlashAttribute("erro", "\""+localEvento.getNome()+"\" não pode ser excluído porque está sendo usado em "+listaEventosByLocalEvento.size()+ " evento(s).");
+				return "redirect:/local/";
+			}
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return "redirect:/local/?erro";
+		}
+		
 		localRep.deleteById(codigo);
 		return "redirect:/local/";
 	}

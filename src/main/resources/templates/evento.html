@@ -8,6 +8,18 @@
     <link rel="stylesheet" href="/css/style.css">
 	
 	<title th:text="${nomePagina}"></title>
+	
+	<script>
+		function formatar(mascara, documento) {
+			var i = documento.value.length;
+			var saida = mascara.substring(0,1);
+			var texto = mascara.substring(i)
+			
+			if (texto.substring(0,1) != saida) {
+				documento.value += texto.substring(0,1);
+			}
+		}
+	</script>
 </head>
 <body>
 	<div class="bold uppercase" th:text="${nomePagina}"></div>
@@ -57,7 +69,7 @@
 				</tr>
 				<tr>
 					<td>Telefone do Responsavel: </td>
-					<td><input type="text" class="form-control" th:field="*{telefoneResponsavel}" size="30"></td>
+					<td><input type="text" class="form-control" th:field="*{telefoneResponsavel}" size="30" maxlength="13" OnKeyPress="formatar('## #####-####', this)"></td>
 				</tr>
 				<tr>
 					<td>Duração em Horas: </td>

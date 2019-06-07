@@ -12,6 +12,7 @@ import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -41,6 +42,8 @@ public class Evento {
 	private Integer maximoConvidados;
 	
 	private String nomeResponsavel;
+	
+	@Pattern(regexp = "^[0-9]{2,2}\\ [0-9]{5,5}\\-[0-9]{4,4}$", message = "O telefone deve ser no formato xx 9xxxx-xxxx")
 	private String telefoneResponsavel;
 	
 	@Min(value = 1, message = "A duração máxima de horas deve ser maior que 0.")

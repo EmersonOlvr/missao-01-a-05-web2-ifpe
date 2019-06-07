@@ -10,6 +10,12 @@
 	<title>Cadastro de Locais</title>
 </head>
 <body>
+	<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${!#strings.isEmpty(erro)}">
+		[[${erro}]]
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
 	<div class="bold">LOCAIS CADASTRADOS</div>
 	<div class="mb-2">
 		<table border="1" class="table table-bordered table-hover">
@@ -28,8 +34,8 @@
 				<tr th:unless="${locais.isEmpty()}" th:each="local : ${locais}">
 					<td th:text="${local.nome}"></td>
 					<td>
-						<a th:if="${!#strings.isEmpty(local.linkGoogleMaps)}" th:href="|https://www.google.com.br/maps/${local.linkGoogleMaps}|" target="_blank">Abrir no Google Maps</a>
-						<span th:unless="${!#strings.isEmpty(local.linkGoogleMaps)}" th:href="|https://www.google.com.br/maps/${local.linkGoogleMaps}|" style="font-style: italic" target="_blank">Não há.</span>
+						<a th:if="${!#strings.isEmpty(local.linkGoogleMaps)}" th:href="${local.linkGoogleMaps}" target="_blank">Abrir no Google Maps</a>
+						<span th:unless="${!#strings.isEmpty(local.linkGoogleMaps)}" th:href="${local.linkGoogleMaps}" style="font-style: italic" target="_blank">Não há.</span>
 					</td>
 					<td th:text="${local.capacidade}"></td>
 					<td>
